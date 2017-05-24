@@ -1,0 +1,102 @@
+.spinner {
+  width: 100%;
+}
+.spinner input {
+  text-align: right;
+}
+.input-group-btn-vertical {
+  position: relative;
+  white-space: nowrap;
+  width: 1%;
+  vertical-align: middle;
+  display: table-cell;
+    right: -8px;
+}
+.input-group-btn-vertical > .btn {
+  display: block;
+  float: none;
+  width: 100%;
+  max-width: 100%;
+  padding: 8px;
+  margin-left: -1px;
+  position: relative;
+  border-radius: 0;
+}
+.input-group-btn-vertical > .btn:first-child {
+  border-top-right-radius: 4px;
+}
+.input-group-btn-vertical > .btn:last-child {
+  margin-top: -2px;
+  border-bottom-right-radius: 4px;
+}
+.input-group-btn-vertical i{
+  position: absolute;
+  top: 0;
+  left: 4px;
+}
+.number-spinner{padding-right: 10px;}
+
+.input-group-btn-vertical button{margin: 0px!important;}
+input[type=number] {
+    -moz-appearance:textfield;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.home-icon{font-size: 6em; color: dimgray; margin-bottom: 10px;}
+
+.sale-total{ padding: 10px 10px; background-color: green; border-radius: 5px;}
+.sale-total h2{ color:white; font-size: 3em; }
+.table>tbody>tr>td.select { padding:0px!important; }
+.table>tbody>tr>td { vertical-align: middle; }
+
+.navbar-brand>img {
+  width: 150px;
+}
+.navbar{
+  height: 92px;
+}
+.navbar-nav{margin-top: 16px;}
+.nav>li>a{ font-size: 1.3em; font-weight: 500; color: white!important;}
+
+.note-item{padding-top: 10px!important;padding-bottom: 10px!important; color: white!important; transition: all 500ms;}
+.note-item.active {background-color: darkcyan!important; border-bottom:1px solid rgba(50, 50, 50, 0.75)!important; } 
+.note-item:hover{opacity: 0.8!important; color: rgba(50, 50, 50, 0.75)!important; transition: all 500ms; cursor:pointer!important;}
+.note-item a , .white{color: white;}
+tr.total{ border-top:2px solid gray;}
+#list-note{}
+#sidebar-checkout{   
+    transition: all 1s;
+    background-color: cadetblue;
+    margin-left: -15px;
+    padding-top: 35px;
+
+    margin-top: -20px;
+    height: 100%;
+    -webkit-box-shadow: 4px 0px 10px 0px rgba(50, 50, 50, 0.75);
+    -moz-box-shadow:    4px 0px 10px 0px rgba(50, 50, 50, 0.75);
+    box-shadow:         4px 0px 10px 0px rgba(50, 50, 50, 0.75);
+}
+
+@media only screen and (max-width: 768px)
+{    
+    #sidebar-checkout{    
+    margin-left: 0px;
+    padding-top: 0px;
+    margin-top: 0px;
+    height: 100%;
+    border-right: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow:    none;
+    box-shadow:        none;
+}
+
+}
+
+
+
+
