@@ -51,7 +51,7 @@ class ProductController extends Controller
         $validator = Validator::make( $input, $rules, $messages);
         
         if($validator->fails()){
-            /*Redirect wthit errors*/
+            /*Redirect with errors*/
              return redirect('/product/')
                         ->withErrors($validator)
                         ->withInput();
