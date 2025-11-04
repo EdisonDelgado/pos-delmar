@@ -6,6 +6,7 @@ import { Role } from './models/role.model';
 import { Permission } from './models/permission.model';
 import { UserRole } from './models/user-role.model';
 import { RolePermission } from './models/role-permission.model';
+import { Product } from './models/product.model';
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import { RolePermission } from './models/role-permission.model';
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_DATABASE'),
-        models: [User, Role, Permission, UserRole, RolePermission],
+        models: [User, Role, Permission, UserRole, RolePermission, Product],
         autoLoadModels: true,
         synchronize: configService.get<boolean>('DB_SYNC'),
         logging: configService.get<boolean>('DB_LOGGING') ? console.log : false,

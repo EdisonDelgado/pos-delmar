@@ -4,13 +4,14 @@ import { Role } from '../models/role.model';
 import { Permission } from '../models/permission.model';
 import { UserRole } from '../models/user-role.model';
 import { RolePermission } from '../models/role-permission.model';
+import { Product } from '../models/product.model';
 
 export async function createTestSequelizeInstance(): Promise<Sequelize> {
   const sequelize = new Sequelize({
     dialect: 'sqlite',
     storage: ':memory:',
     logging: false,
-    models: [User, Role, Permission, UserRole, RolePermission],
+    models: [User, Role, Permission, UserRole, RolePermission, Product],
   });
 
   await sequelize.sync({ force: true });
