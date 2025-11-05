@@ -62,6 +62,9 @@ export class SalesService {
       let totalAmount = 0;
       const saleDetails = createSaleNoteDto.items.map((item) => {
         const product = products.find((p) => p.id === item.productId);
+        if (!product) {
+          throw new NotFoundException(`Producto con ID ${item.productId} no encontrado`);
+        }
         const unitPrice = item.unitPrice || Number(product.salePrice);
         const totalPrice = unitPrice * item.quantity;
         totalAmount += totalPrice;
@@ -219,8 +222,12 @@ export class SalesService {
 
       // Update sale note
       saleNote.paid = true;
-      saleNote.comment = checkoutDto.comment || null;
-      saleNote.document = checkoutDto.document || null;
+      if (checkoutDto.comment !== undefined) {
+        saleNote.comment = checkoutDto.comment;
+      }
+      if (checkoutDto.document !== undefined) {
+        saleNote.document = checkoutDto.document;
+      }
       await saleNote.save({ transaction });
 
       await transaction.commit();

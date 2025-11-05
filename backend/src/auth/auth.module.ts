@@ -14,12 +14,15 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET'),
-        signOptions: {
-          expiresIn: configService.get<string>('JWT_EXPIRATION'),
-        },
-      }),
+      useFactory: (configService: ConfigService) => {
+        const expiresIn = configService.get<string>('JWT_EXPIRATION') || '24h';
+        return {
+          secret: configService.get<string>('JWT_SECRET') || 'default-secret-change-in-production',
+          signOptions: {
+            expiresIn: expiresIn as any,
+          },
+        };
+      },
     }),
   ],
   providers: [AuthService, JwtStrategy],
