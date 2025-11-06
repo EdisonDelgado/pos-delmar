@@ -37,4 +37,15 @@ export class CreateSettingDto {
   @IsOptional()
   @IsString()
   description?: string;
+
+  @ApiPropertyOptional({
+    description: 'Category for organizing settings',
+    example: 'General',
+    maxLength: 50,
+    default: 'General',
+  })
+  @IsOptional()
+  @IsString()
+  @MaxLength(50)
+  category?: string;
 }

@@ -61,6 +61,14 @@ export class Setting extends Model {
   })
   declare description: string;
 
+  @Column({
+    type: DataType.STRING(50),
+    allowNull: false,
+    defaultValue: 'General',
+    comment: 'Category for organizing settings (e.g., General, Sistema, Recibos)',
+  })
+  declare category: string;
+
   @CreatedAt
   @Column({
     type: DataType.DATE,

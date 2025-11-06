@@ -7,6 +7,7 @@ import { DashboardPage } from './pages/DashboardPage';
 import { ProductsPage } from './pages/ProductsPage';
 import { SalesPage } from './pages/SalesPage';
 import { ReportsPage } from './pages/ReportsPage';
+import { SettingsPage } from './pages/SettingsPage';
 import { UnauthorizedPage } from './pages/UnauthorizedPage';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { MainLayout } from './components/layout/MainLayout';
@@ -58,6 +59,16 @@ function App() {
               <ProtectedRoute requiredRoles={['Admin']}>
                 <MainLayout>
                   <ReportsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute requiredRoles={['Admin']}>
+                <MainLayout>
+                  <SettingsPage />
                 </MainLayout>
               </ProtectedRoute>
             }

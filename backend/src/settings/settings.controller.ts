@@ -40,6 +40,12 @@ export class SettingsController {
     return this.settingsService.findByKey(key);
   }
 
+  @Get('category/:category')
+  @ApiOperation({ summary: 'Get settings by category' })
+  findByCategory(@Param('category') category: string) {
+    return this.settingsService.findByCategory(category);
+  }
+
   @Patch(':id')
   @ApiOperation({ summary: 'Update a setting' })
   update(@Param('id', ParseIntPipe) id: number, @Body() updateSettingDto: UpdateSettingDto) {

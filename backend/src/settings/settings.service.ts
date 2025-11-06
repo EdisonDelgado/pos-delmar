@@ -30,6 +30,13 @@ export class SettingsService {
     return setting;
   }
 
+  async findByCategory(category: string): Promise<Setting[]> {
+    return this.settingModel.findAll({
+      where: { category },
+      order: [['key', 'ASC']]
+    });
+  }
+
   async update(id: number, updateSettingDto: UpdateSettingDto): Promise<Setting> {
     const setting = await this.findOne(id);
     return setting.update(updateSettingDto);

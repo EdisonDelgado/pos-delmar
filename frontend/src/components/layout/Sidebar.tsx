@@ -4,6 +4,7 @@ import {
   Package,
   ShoppingCart,
   BarChart3,
+  Settings,
   LogOut,
   Menu,
   X
@@ -27,6 +28,7 @@ const navItems: NavItem[] = [
   { name: 'Productos', path: '/products', icon: Package },
   { name: 'Ventas (POS)', path: '/sales', icon: ShoppingCart },
   { name: 'Reportes', path: '/reports', icon: BarChart3, roles: ['Admin'] },
+  { name: 'Configuración', path: '/settings', icon: Settings, roles: ['Admin'] },
 ];
 
 export function Sidebar() {

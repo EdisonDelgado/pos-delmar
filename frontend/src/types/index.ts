@@ -187,6 +187,7 @@ export interface Setting {
   value: string;
   name: string;
   description?: string;
+  category?: string;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -196,6 +197,7 @@ export interface CreateSettingRequest {
   value: string;
   name: string;
   description?: string;
+  category?: string;
 }
 
 export interface UpdateSettingRequest extends Partial<CreateSettingRequest> {}
