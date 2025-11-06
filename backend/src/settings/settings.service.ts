@@ -11,7 +11,7 @@ export class SettingsService {
   async create(createSettingDto: CreateSettingDto): Promise<Setting> {
     const existing = await this.settingModel.findOne({ where: { key: createSettingDto.key } });
     if (existing) throw new ConflictException(`Setting with key "${createSettingDto.key}" already exists`);
-    return this.settingModel.create(createSettingDto);
+    return this.settingModel.create(createSettingDto as any);
   }
 
   async findAll(): Promise<Setting[]> {
