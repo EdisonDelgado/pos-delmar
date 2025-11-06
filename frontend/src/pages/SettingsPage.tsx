@@ -4,12 +4,10 @@ import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import {
   fetchSettings,
-  fetchSettingsByCategory,
   createSetting,
   updateSetting,
   deleteSetting,
   clearError,
-  clearCurrentSetting,
 } from '@/features/settings/settingsSlice';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';

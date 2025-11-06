@@ -1,4 +1,5 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 import { salesService } from '@/services/salesService';
 import type {
   SalesState,
@@ -6,7 +7,6 @@ import type {
   CreateSaleNoteRequest,
   CheckoutSaleNoteRequest,
   ApiError,
-  SaleItem,
 } from '@/types';
 
 const initialState: SalesState = {
@@ -69,7 +69,7 @@ export const fetchSales = createAsyncThunk<
   { rejectValue: ApiError }
 >('sales/fetchSales', async (params, { rejectWithValue }) => {
   try {
-    return await salesService.getSales(params);
+    return await salesService.getSales(params || undefined);
   } catch (error) {
     return rejectWithValue(error as ApiError);
   }

@@ -1,6 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import authReducer, { login, register, logout, clearError } from '../authSlice';
-import { authService } from '@/services/authService';
 import type { AuthState, AuthResponse } from '@/types';
 
 // Mock authService
@@ -156,8 +155,6 @@ describe('authSlice', () => {
 
   describe('localStorage integration', () => {
     it('should save token and user to localStorage on login success', () => {
-      const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
-
       const mockResponse: AuthResponse = {
         access_token: 'test-token',
         user: {

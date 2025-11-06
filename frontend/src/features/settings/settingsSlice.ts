@@ -1,4 +1,5 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 import { settingsService } from '@/services/settingsService';
 import type { SettingsState, Setting, CreateSettingRequest, UpdateSettingRequest, ApiError } from '@/types';
 

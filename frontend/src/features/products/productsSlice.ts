@@ -1,4 +1,5 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 import { productService } from '@/services/productService';
 import type { ProductsState, Product, CreateProductRequest, UpdateProductRequest, ApiError } from '@/types';
 
@@ -21,7 +22,7 @@ export const fetchProducts = createAsyncThunk<
   { rejectValue: ApiError }
 >('products/fetchProducts', async (params, { rejectWithValue }) => {
   try {
-    return await productService.getProducts(params);
+    return await productService.getProducts(params || undefined);
   } catch (error) {
     return rejectWithValue(error as ApiError);
   }

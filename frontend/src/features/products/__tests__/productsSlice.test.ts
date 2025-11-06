@@ -10,7 +10,6 @@ import productsReducer, {
   clearError,
   setPagination,
 } from '../productsSlice';
-import { productService } from '@/services/productService';
 import type { ProductsState, Product } from '@/types';
 
 // Mock productService

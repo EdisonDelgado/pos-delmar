@@ -6,7 +6,6 @@ import {
   fetchSalesReport,
   fetchDailySalesReport,
   fetchMonthlySalesReport,
-  fetchYearlySalesReport,
   fetchSalesByUser,
   clearError,
 } from '@/features/reports/reportsSlice';
@@ -47,7 +46,7 @@ export function ReportsPage() {
 
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [selectedYear] = useState(new Date().getFullYear());
 
   useEffect(() => {
     // Load initial reports
@@ -114,14 +113,14 @@ export function ReportsPage() {
   // Prepare data for charts
   const dailyChartData = dailyReport.map((item) => ({
     date: formatDate(item.date),
-    ventas: item.totalSales,
-    monto: item.totalAmount,
+    ventas: item.sales,
+    monto: item.amount,
   }));
 
   const monthlyChartData = monthlyReport.map((item) => ({
     mes: getMonthName(item.month),
-    ventas: item.totalSales,
-    monto: item.totalAmount,
+    ventas: item.sales,
+    monto: item.amount,
   }));
 
   const topProductsData = salesReport?.topProducts.slice(0, 5).map((item) => ({
@@ -323,7 +322,7 @@ export function ReportsPage() {
                       outerRadius={80}
                       label
                     >
-                      {topProductsData.map((entry, index) => (
+                      {topProductsData.map((_, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                       ))}
                     </Pie>

@@ -16,7 +16,6 @@ import salesReducer, {
   type CartItem,
   type ExtendedSalesState,
 } from '../salesSlice';
-import { salesService } from '@/services/salesService';
 import type { SaleNote } from '@/types';
 
 // Mock salesService

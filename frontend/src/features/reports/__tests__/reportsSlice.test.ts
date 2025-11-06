@@ -8,7 +8,6 @@ import reportsReducer, {
   clearError,
   clearReports,
 } from '../reportsSlice';
-import { reportsService } from '@/services/reportsService';
 import type {
   ReportsState,
   SalesReport,
@@ -42,8 +41,8 @@ describe('reportsSlice', () => {
   const mockDailyReport: DailySalesReport[] = [
     {
       date: '2025-01-01',
-      totalSales: 10,
-      totalAmount: 100000,
+      sales: 10,
+      amount: 100000,
     },
   ];
 
@@ -51,8 +50,8 @@ describe('reportsSlice', () => {
     {
       month: 1,
       year: 2025,
-      totalSales: 100,
-      totalAmount: 1000000,
+      sales: 100,
+      amount: 1000000,
     },
   ];
 
@@ -297,9 +296,9 @@ describe('reportsSlice', () => {
   describe('edge cases', () => {
     it('should handle multiple daily reports', () => {
       const multipleDailyReports: DailySalesReport[] = [
-        { date: '2025-01-01', totalSales: 10, totalAmount: 100000 },
-        { date: '2025-01-02', totalSales: 15, totalAmount: 150000 },
-        { date: '2025-01-03', totalSales: 20, totalAmount: 200000 },
+        { date: '2025-01-01', sales: 10, amount: 100000 },
+        { date: '2025-01-02', sales: 15, amount: 150000 },
+        { date: '2025-01-03', sales: 20, amount: 200000 },
       ];
 
       const action = {
