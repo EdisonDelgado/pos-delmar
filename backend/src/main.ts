@@ -9,12 +9,18 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
 
   // Enable CORS
+  const corsOrigin = configService.get<string>('CORS_ORIGIN') || 'http://localhost:5173';
   app.enableCors({
-    origin: configService.get<string>('CORS_ORIGIN'),
+    origin: corsOrigin.split(',').map(o => o.trim()),
     credentials: true,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    allowedHeaders: 'Content-Type,Authorization',
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+    exposedHeaders: ['Authorization'],
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
   });
+
+  console.log(`🌐 CORS enabled for origins: ${corsOrigin}`);
 
   // Global validation pipe
   app.useGlobalPipes(

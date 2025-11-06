@@ -92,22 +92,37 @@ API Docs: http://localhost:3000/api/docs
 
 ## 🛠️ Desarrollo Local
 
+### Requisitos Previos
+
+1. **Node.js 20+** instalado
+2. **PostgreSQL 15** (local o Docker)
+3. Tener los puertos **3000** (backend) y **5173** (frontend) disponibles
+
 ### Backend
 
 ```bash
 cd backend
 
-# Instalar dependencias
+# 1. Instalar dependencias
 npm install
 
-# Configurar .env
-cp .env.example .env
+# 2. Configurar .env (ya existe, revisar configuración)
+# Verificar que CORS_ORIGIN incluya http://localhost:5173
+cat .env
 
-# Iniciar PostgreSQL
-docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=postgres postgres:15
+# 3. Iniciar PostgreSQL (si no tienes uno local)
+docker run -d --name pos-postgres \
+  -p 5432:5432 \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD=postgres \
+  -e POSTGRES_DB=pos_delmar \
+  postgres:15-alpine
 
-# Modo desarrollo
+# 4. Modo desarrollo
 npm run start:dev
+
+# ✅ Backend corriendo en http://localhost:3000/api
+# 📚 Swagger docs en http://localhost:3000/api/docs
 
 # Tests
 npm test
@@ -119,21 +134,87 @@ npm run test:cov
 ```bash
 cd frontend
 
-# Instalar dependencias
+# 1. Instalar dependencias
 npm install
 
-# Configurar .env
-cp .env.example .env
+# 2. Configurar .env (ya creado)
+# Verificar que VITE_API_URL apunte a http://localhost:3000/api
+cat .env
 
-# Modo desarrollo
+# 3. Modo desarrollo
 npm run dev
+
+# ✅ Frontend corriendo en http://localhost:5173
 
 # Tests
 npm test
 npm run test:ui
 
-# Build
+# Build producción
 npm run build
+```
+
+### 🔥 Solución de Problemas Comunes
+
+#### Error de CORS al hacer login
+
+Si ves el error **"Network error. Please check your connection"**:
+
+1. **Verificar que el backend esté corriendo:**
+   ```bash
+   curl http://localhost:3000/api/auth/login
+   # Debe responder con error 400 (esperado sin credenciales)
+   ```
+
+2. **Verificar configuración CORS en backend/.env:**
+   ```env
+   CORS_ORIGIN=http://localhost:5173,http://localhost:4173,http://localhost:3001
+   ```
+
+3. **Verificar frontend/.env:**
+   ```env
+   VITE_API_URL=http://localhost:3000/api
+   ```
+
+4. **Reiniciar ambos servicios:**
+   ```bash
+   # Terminal 1 - Backend
+   cd backend && npm run start:dev
+
+   # Terminal 2 - Frontend
+   cd frontend && npm run dev
+   ```
+
+5. **Verificar en el navegador:**
+   - Abre http://localhost:5173
+   - Abre DevTools (F12) → Network
+   - Intenta hacer login
+   - Verifica que la petición vaya a `http://localhost:3000/api/auth/login`
+
+#### Base de datos no conecta
+
+```bash
+# Verificar que PostgreSQL esté corriendo
+docker ps | grep postgres
+
+# Si no está corriendo, iniciarlo
+docker start pos-postgres
+
+# O crear uno nuevo
+docker run -d --name pos-postgres \
+  -p 5432:5432 \
+  -e POSTGRES_PASSWORD=postgres \
+  postgres:15-alpine
+```
+
+#### Puerto 3000 o 5173 ocupado
+
+```bash
+# Encontrar proceso en el puerto
+lsof -i :3000  # o :5173
+
+# Matar el proceso
+kill -9 <PID>
 ```
 
 ## 🧪 Testing
