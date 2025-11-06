@@ -146,21 +146,21 @@ export interface SalesReport {
 
 export interface DailySalesReport {
   date: string;
-  totalSales: number;
-  totalAmount: number;
+  sales: number;
+  amount: number;
 }
 
 export interface MonthlySalesReport {
   month: number;
   year: number;
-  totalSales: number;
-  totalAmount: number;
+  sales: number;
+  amount: number;
 }
 
 export interface YearlySalesReport {
   year: number;
-  totalSales: number;
-  totalAmount: number;
+  sales: number;
+  amount: number;
 }
 
 export interface UserSalesReport {
@@ -176,6 +176,33 @@ export interface ReportsState {
   monthlyReport: MonthlySalesReport[];
   yearlyReport: YearlySalesReport[];
   userReport: UserSalesReport[];
+  isLoading: boolean;
+  error: string | null;
+}
+
+// Settings types
+export interface Setting {
+  id: number;
+  key: string;
+  value: string;
+  name: string;
+  description?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface CreateSettingRequest {
+  key: string;
+  value: string;
+  name: string;
+  description?: string;
+}
+
+export interface UpdateSettingRequest extends Partial<CreateSettingRequest> {}
+
+export interface SettingsState {
+  settings: Setting[];
+  currentSetting: Setting | null;
   isLoading: boolean;
   error: string | null;
 }

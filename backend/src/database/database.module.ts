@@ -9,6 +9,7 @@ import { RolePermission } from './models/role-permission.model';
 import { Product } from './models/product.model';
 import { SaleNote } from './models/sale-note.model';
 import { SaleNoteDetail } from './models/sale-note-detail.model';
+import { Setting } from './models/setting.model';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { SaleNoteDetail } from './models/sale-note-detail.model';
           Product,
           SaleNote,
           SaleNoteDetail,
+          Setting,
         ],
         autoLoadModels: true,
         synchronize: configService.get<boolean>('DB_SYNC'),

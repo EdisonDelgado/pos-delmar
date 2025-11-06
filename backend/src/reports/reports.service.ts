@@ -127,9 +127,9 @@ export class ReportsService {
     }));
   }
 
-  async getMonthlySalesReport(year: number): Promise<Array<{ month: number; sales: number; amount: number }>> {
-    const startDate = new Date(year, 0, 1);
-    const endDate = new Date(year, 11, 31, 23, 59, 59);
+  async getMonthlySalesReport(year: number): Promise<Array<{ month: number; year: number; sales: number; amount: number }>> {
+    const startDate = new Date(Date.UTC(year, 0, 1, 0, 0, 0));
+    const endDate = new Date(Date.UTC(year, 11, 31, 23, 59, 59));
 
     const sales = await this.saleNoteModel.findAll({
       where: {
@@ -139,17 +139,18 @@ export class ReportsService {
         },
       },
       attributes: [
-        [this.sequelize.fn('MONTH', this.sequelize.col('updated_at')), 'month'],
+        [this.sequelize.literal("EXTRACT(MONTH FROM updated_at)::INTEGER"), 'month'],
         [this.sequelize.fn('COUNT', this.sequelize.col('id')), 'count'],
         [this.sequelize.fn('SUM', this.sequelize.col('amount')), 'total'],
       ],
-      group: [this.sequelize.fn('MONTH', this.sequelize.col('updated_at'))],
-      order: [[this.sequelize.fn('MONTH', this.sequelize.col('updated_at')), 'ASC']],
+      group: ['month'],
+      order: [['month', 'ASC']],
       raw: true,
     });
 
     return sales.map((sale: any) => ({
       month: parseInt(sale.month, 10),
+      year: year,
       sales: parseInt(sale.count, 10),
       amount: Math.round(parseFloat(sale.total) * 100) / 100,
     }));
@@ -161,12 +162,12 @@ export class ReportsService {
         paid: true,
       },
       attributes: [
-        [this.sequelize.fn('YEAR', this.sequelize.col('updated_at')), 'year'],
+        [this.sequelize.literal("EXTRACT(YEAR FROM updated_at)::INTEGER"), 'year'],
         [this.sequelize.fn('COUNT', this.sequelize.col('id')), 'count'],
         [this.sequelize.fn('SUM', this.sequelize.col('amount')), 'total'],
       ],
-      group: [this.sequelize.fn('YEAR', this.sequelize.col('updated_at'))],
-      order: [[this.sequelize.fn('YEAR', this.sequelize.col('updated_at')), 'DESC']],
+      group: ['year'],
+      order: [['year', 'DESC']],
       raw: true,
     });
 
