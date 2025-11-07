@@ -45,8 +45,8 @@ services:
       # JWT Configuration
       JWT_SECRET: your-super-secret-jwt-key-change-this-in-production
       JWT_EXPIRATION: 24h
-      # CORS Configuration
-      CORS_ORIGIN: http://localhost:80
+      # CORS Configuration - Permite requests desde localhost y desde el contenedor frontend
+      CORS_ORIGIN: http://localhost,http://localhost:80,http://frontend
     ports:
       - "3000:3000"
     depends_on:
@@ -66,6 +66,9 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        # URL del backend accesible desde el navegador del usuario (fuera de Docker)
+        VITE_API_URL: http://localhost:3000/api
     container_name: pos-delmar-frontend
     restart: unless-stopped
     ports:

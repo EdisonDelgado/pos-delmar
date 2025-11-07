@@ -67,16 +67,28 @@ Sistema de Punto de Venta (POS) moderno desarrollado con NestJS + React + Postgr
 git clone <repository-url>
 cd pos-delmar
 
-# 2. Construir imágenes
-docker compose build
+# 2. Construir imágenes (sin caché para asegurar build limpio)
+docker compose build --no-cache
 
 # 3. Iniciar servicios
 docker compose up -d
 
-# 4. Acceder
-Frontend: http://localhost:80
-Backend API: http://localhost:3000/api
-API Docs: http://localhost:3000/api/docs
+# 4. Verificar que todo funcione correctamente
+./verify-docker.sh
+
+# 5. Acceder a la aplicación
+# Frontend: http://localhost
+# Backend API: http://localhost:3000/api
+# API Docs: http://localhost:3000/api/docs
+```
+
+**Si tienes problemas de conexión entre frontend y backend:**
+```bash
+# Ver guía detallada de debugging
+cat DOCKER-NETWORK-DEBUG.md
+
+# O ejecutar script de verificación
+./verify-docker.sh
 ```
 
 ### Credenciales por Defecto
@@ -86,9 +98,12 @@ API Docs: http://localhost:3000/api/docs
 
 ## 📖 Documentación
 
-- [Docker Setup](./DOCKER.md) - Guía completa de Docker
-- [Backend README](./backend/README.md) - Documentación backend
-- [Frontend README](./frontend/README.md) - Documentación frontend
+- **[QUICKSTART.md](./QUICKSTART.md)** - 🚀 Guía rápida para empezar
+- **[DOCKER-NETWORK-DEBUG.md](./DOCKER-NETWORK-DEBUG.md)** - 🔍 Debugging de red Docker y CORS
+- **[verify-docker.sh](./verify-docker.sh)** - 🧪 Script de verificación automática
+- [DOCKER.md](./DOCKER.md) - Guía completa de Docker
+- [backend/README.md](./backend/README.md) - Documentación backend
+- [frontend/README.md](./frontend/README.md) - Documentación frontend
 
 ## 🛠️ Desarrollo Local
 
