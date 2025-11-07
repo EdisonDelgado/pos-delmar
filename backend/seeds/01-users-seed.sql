@@ -2,7 +2,7 @@
 -- Este archivo se ejecuta automáticamente cuando se crea el contenedor de PostgreSQL
 
 -- Crear roles si no existen
-INSERT INTO "roles" ("id", "name", "description", "createdAt", "updatedAt")
+INSERT INTO "roles" ("id", "name", "description", "created_at", "updated_at")
 VALUES
     (1, 'Admin', 'Administrador con acceso completo', NOW(), NOW()),
     (2, 'User', 'Usuario estándar', NOW(), NOW())
@@ -13,36 +13,36 @@ SELECT setval('"roles_id_seq"', (SELECT MAX(id) FROM "roles"));
 
 -- Crear usuario administrador
 -- Password: admin123 (hasheado con bcrypt, 10 rounds)
-INSERT INTO "users" ("id", "name", "email", "password", "isActive", "createdAt", "updatedAt")
+INSERT INTO "users" ("id", "name", "email", "password", "is_active", "created_at", "updated_at")
 VALUES
     (1, 'Administrador', 'admin@delmar.com', '$2b$10$3RBWHhj/c.RZQF7oSdFcYOmLpB2DvaoQhncGx9TuUtJoZLPtVaWZ.', true, NOW(), NOW())
 ON CONFLICT (email) DO UPDATE SET
     "password" = '$2b$10$3RBWHhj/c.RZQF7oSdFcYOmLpB2DvaoQhncGx9TuUtJoZLPtVaWZ.',
-    "updatedAt" = NOW();
+    "updated_at" = NOW();
 
 -- Crear usuario de prueba
 -- Password: password123 (hasheado con bcrypt, 10 rounds)
-INSERT INTO "users" ("id", "name", "email", "password", "isActive", "createdAt", "updatedAt")
+INSERT INTO "users" ("id", "name", "email", "password", "is_active", "created_at", "updated_at")
 VALUES
     (2, 'Usuario de Prueba', 'user@delmar.com', '$2b$10$erw8/kSqfHcnkFT4vwtVU.DWV/udrAqaJGB.znezAUAIXqNTlsWg2', true, NOW(), NOW())
 ON CONFLICT (email) DO UPDATE SET
     "password" = '$2b$10$erw8/kSqfHcnkFT4vwtVU.DWV/udrAqaJGB.znezAUAIXqNTlsWg2',
-    "updatedAt" = NOW();
+    "updated_at" = NOW();
 
 -- Resetear secuencia de usuarios
 SELECT setval('"users_id_seq"', (SELECT MAX(id) FROM "users"));
 
 -- Asignar rol Admin al administrador
-INSERT INTO "user_roles" ("userId", "roleId", "createdAt", "updatedAt")
+INSERT INTO "user_roles" ("user_id", "role_id", "created_at", "updated_at")
 VALUES
     (1, 1, NOW(), NOW())
-ON CONFLICT ("userId", "roleId") DO NOTHING;
+ON CONFLICT ("user_id", "role_id") DO NOTHING;
 
 -- Asignar rol User al usuario de prueba
-INSERT INTO "user_roles" ("userId", "roleId", "createdAt", "updatedAt")
+INSERT INTO "user_roles" ("user_id", "role_id", "created_at", "updated_at")
 VALUES
     (2, 2, NOW(), NOW())
-ON CONFLICT ("userId", "roleId") DO NOTHING;
+ON CONFLICT ("user_id", "role_id") DO NOTHING;
 
 -- Mensaje de confirmación
 DO $$
