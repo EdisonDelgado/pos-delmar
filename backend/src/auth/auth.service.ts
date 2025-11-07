@@ -30,32 +30,52 @@ export class AuthService {
   ) {}
 
   async validateUser(email: string, password: string): Promise<User | null> {
+    console.log('🔐 [AuthService] Validando usuario:', email);
+
     const user = await this.usersService.findByEmail(email);
 
     if (!user) {
+      console.log('❌ [AuthService] Usuario no encontrado:', email);
       return null;
     }
+
+    console.log('✓ [AuthService] Usuario encontrado:', {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      isActive: user.isActive,
+      roles: user.roles?.map(r => r.name) || [],
+      hasPassword: !!user.password,
+      passwordLength: user.password?.length || 0
+    });
 
     const isPasswordValid = await this.usersService.validatePassword(
       password,
       user.password,
     );
 
+    console.log('🔑 [AuthService] Validación de contraseña:', isPasswordValid ? '✅ Válida' : '❌ Inválida');
+
     if (!isPasswordValid) {
       return null;
     }
 
     if (!user.isActive) {
+      console.log('❌ [AuthService] Cuenta inactiva');
       throw new UnauthorizedException('La cuenta está inactiva');
     }
 
+    console.log('✅ [AuthService] Validación exitosa');
     return user;
   }
 
   async login(loginDto: LoginDto): Promise<AuthResponse> {
+    console.log('🚀 [AuthService] Intento de login:', loginDto.email);
+
     const user = await this.validateUser(loginDto.email, loginDto.password);
 
     if (!user) {
+      console.log('❌ [AuthService] Login falló - Credenciales inválidas');
       throw new UnauthorizedException('Credenciales inválidas');
     }
 
@@ -67,8 +87,17 @@ export class AuthService {
       roles,
     };
 
+    const token = this.jwtService.sign(payload);
+
+    console.log('🎉 [AuthService] Login exitoso:', {
+      userId: user.id,
+      email: user.email,
+      roles,
+      tokenLength: token.length
+    });
+
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: token,
       user: {
         id: user.id,
         name: user.name,

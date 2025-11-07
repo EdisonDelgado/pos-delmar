@@ -14,13 +14,17 @@ export function LoginPage() {
   const navigate = useNavigate();
   const { isLoading, error, isAuthenticated } = useAppSelector((state) => state.auth);
 
+  // Usar una ref para evitar múltiples navegaciones
+  const [hasNavigated, setHasNavigated] = useState(false);
+
   // Si ya está autenticado, redirigir al dashboard
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && !hasNavigated) {
       console.log('👤 Usuario ya autenticado, redirigiendo al dashboard');
+      setHasNavigated(true);
       navigate('/dashboard', { replace: true });
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate, hasNavigated]);
 
   // Limpiar error cuando el usuario empieza a escribir
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,12 +43,11 @@ export function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('📝 Intentando login con:', { email, password: '***' });
     const result = await dispatch(login({ email, password }));
 
-    // Si el login fue exitoso, navegar al dashboard
     if (login.fulfilled.match(result)) {
-      console.log('✅ Login exitoso, navegando a dashboard');
-      navigate('/dashboard', { replace: true });
+      console.log('✅ Login exitoso, el useEffect manejará la navegación');
     } else {
       console.log('❌ Login falló:', result);
     }

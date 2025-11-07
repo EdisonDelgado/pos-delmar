@@ -129,6 +129,17 @@ export class UsersService {
   }
 
   async validatePassword(plainPassword: string, hashedPassword: string): Promise<boolean> {
-    return bcrypt.compare(plainPassword, hashedPassword);
+    console.log('🔑 [UsersService] Comparando contraseñas:', {
+      plainPasswordLength: plainPassword.length,
+      hashedPasswordLength: hashedPassword.length,
+      hashedPasswordPrefix: hashedPassword.substring(0, 10),
+      plainPasswordPrefix: plainPassword.substring(0, 3) + '***'
+    });
+
+    const isValid = await bcrypt.compare(plainPassword, hashedPassword);
+
+    console.log('🔑 [UsersService] Resultado de comparación:', isValid ? '✅ Coincide' : '❌ No coincide');
+
+    return isValid;
   }
 }
