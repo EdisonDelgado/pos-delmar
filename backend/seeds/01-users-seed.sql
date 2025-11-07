@@ -33,15 +33,15 @@ ON CONFLICT (email) DO UPDATE SET
 SELECT setval('"users_id_seq"', (SELECT MAX(id) FROM "users"));
 
 -- Asignar rol Admin al administrador
-INSERT INTO "user_roles" ("user_id", "role_id", "created_at", "updated_at")
+INSERT INTO "user_roles" ("user_id", "role_id")
 VALUES
-    (1, 1, NOW(), NOW())
+    (1, 1)
 ON CONFLICT ("user_id", "role_id") DO NOTHING;
 
 -- Asignar rol User al usuario de prueba
-INSERT INTO "user_roles" ("user_id", "role_id", "created_at", "updated_at")
+INSERT INTO "user_roles" ("user_id", "role_id")
 VALUES
-    (2, 2, NOW(), NOW())
+    (2, 2)
 ON CONFLICT ("user_id", "role_id") DO NOTHING;
 
 -- Mensaje de confirmación
