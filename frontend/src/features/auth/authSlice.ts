@@ -82,11 +82,14 @@ export const getProfile = createAsyncThunk<
 });
 
 // Slice
+const loadedState = loadAuthFromStorage();
+console.log('🔄 Cargando estado inicial de auth:', loadedState);
+
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
     ...initialState,
-    ...loadAuthFromStorage(),
+    ...loadedState,
   },
   reducers: {
     logout: (state) => {
@@ -108,6 +111,11 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(login.fulfilled, (state, action: PayloadAction<AuthResponse>) => {
+        console.log('🎉 Login fulfilled:', {
+          token: action.payload.access_token.substring(0, 20) + '...',
+          user: action.payload.user.email,
+          roles: action.payload.user.roles
+        });
         state.isLoading = false;
         state.isAuthenticated = true;
         state.token = action.payload.access_token;
@@ -115,6 +123,7 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(login.rejected, (state, action) => {
+        console.log('❌ Login rejected:', action.payload);
         state.isLoading = false;
         state.isAuthenticated = false;
         state.error = action.payload?.message || 'Login failed';

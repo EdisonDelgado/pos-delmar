@@ -10,7 +10,10 @@ interface ProtectedRouteProps {
 export function ProtectedRoute({ children, requiredRoles }: ProtectedRouteProps) {
   const { isAuthenticated, user } = useAppSelector((state) => state.auth);
 
+  console.log('🔒 ProtectedRoute - isAuthenticated:', isAuthenticated, 'user:', user?.email);
+
   if (!isAuthenticated) {
+    console.log('❌ No autenticado, redirigiendo a /login');
     return <Navigate to="/login" replace />;
   }
 
@@ -18,9 +21,12 @@ export function ProtectedRoute({ children, requiredRoles }: ProtectedRouteProps)
   if (requiredRoles && requiredRoles.length > 0 && user) {
     const hasRequiredRole = requiredRoles.some((role) => user.roles?.includes(role));
     if (!hasRequiredRole) {
+      console.log('❌ Usuario no tiene roles requeridos:', requiredRoles);
       return <Navigate to="/unauthorized" replace />;
     }
+    console.log('✅ Usuario tiene roles requeridos');
   }
 
+  console.log('✅ Acceso permitido a ruta protegida');
   return <>{children}</>;
 }

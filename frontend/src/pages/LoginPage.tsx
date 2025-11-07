@@ -14,9 +14,11 @@ export function LoginPage() {
   const navigate = useNavigate();
   const { isLoading, error, isAuthenticated } = useAppSelector((state) => state.auth);
 
+  // Si ya está autenticado, redirigir al dashboard
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/dashboard');
+      console.log('👤 Usuario ya autenticado, redirigiendo al dashboard');
+      navigate('/dashboard', { replace: true });
     }
   }, [isAuthenticated, navigate]);
 
@@ -37,7 +39,15 @@ export function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await dispatch(login({ email, password }));
+    const result = await dispatch(login({ email, password }));
+
+    // Si el login fue exitoso, navegar al dashboard
+    if (login.fulfilled.match(result)) {
+      console.log('✅ Login exitoso, navegando a dashboard');
+      navigate('/dashboard', { replace: true });
+    } else {
+      console.log('❌ Login falló:', result);
+    }
   };
 
   return (
