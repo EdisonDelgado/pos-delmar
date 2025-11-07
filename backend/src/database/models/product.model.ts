@@ -46,11 +46,11 @@ export class Product extends Model {
   })
   @Column({
     type: DataType.STRING(100),
-    allowNull: false,
+    allowNull: true,
     unique: true,
-    comment: 'Unique barcode for product identification',
+    comment: 'Unique barcode for product identification (optional)',
   })
-  declare barcode: string;
+  declare barcode: string | null;
 
   @Column({
     type: DataType.STRING(255),

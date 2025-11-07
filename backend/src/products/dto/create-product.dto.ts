@@ -1,17 +1,18 @@
-import { IsString, IsNumber, IsNotEmpty, Min, MaxLength } from 'class-validator';
+import { IsString, IsNumber, IsNotEmpty, Min, MaxLength, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateProductDto {
   @ApiProperty({
-    description: 'Código de barras único del producto',
+    description: 'Código de barras único del producto (opcional)',
     example: '7501234567890',
     maxLength: 100,
     type: String,
+    required: false,
   })
+  @IsOptional()
   @IsString()
-  @IsNotEmpty({ message: 'El código de barras es requerido' })
   @MaxLength(100)
-  barcode: string;
+  barcode?: string;
 
   @ApiProperty({
     description: 'Nombre del producto',
