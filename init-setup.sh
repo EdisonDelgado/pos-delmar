@@ -97,7 +97,7 @@ else
     # Intentar arreglar roles
     docker compose exec -T postgres psql -U postgres -d pos_delmar << 'EOSQL' > /dev/null 2>&1
 DELETE FROM user_roles WHERE user_id IN (1, 2);
-INSERT INTO user_roles (user_id, role_id) VALUES (1, 1), (2, 2) ON CONFLICT DO NOTHING;
+INSERT INTO user_roles (user_id, role_id, created_at) VALUES (1, 1, NOW()), (2, 2, NOW()) ON CONFLICT DO NOTHING;
 EOSQL
 
     # Verificar de nuevo

@@ -19,8 +19,8 @@ BEGIN
 
     -- Si el admin no tiene roles, asignar
     IF admin_has_role = 0 THEN
-        INSERT INTO user_roles (user_id, role_id)
-        VALUES (1, 1)
+        INSERT INTO user_roles (user_id, role_id, created_at)
+        VALUES (1, 1, NOW())
         ON CONFLICT (user_id, role_id) DO NOTHING;
         RAISE NOTICE '✓ Rol Admin asignado al administrador';
     ELSE
@@ -29,8 +29,8 @@ BEGIN
 
     -- Si el usuario de prueba no tiene roles, asignar
     IF user_has_role = 0 THEN
-        INSERT INTO user_roles (user_id, role_id)
-        VALUES (2, 2)
+        INSERT INTO user_roles (user_id, role_id, created_at)
+        VALUES (2, 2, NOW())
         ON CONFLICT (user_id, role_id) DO NOTHING;
         RAISE NOTICE '✓ Rol User asignado al usuario de prueba';
     ELSE

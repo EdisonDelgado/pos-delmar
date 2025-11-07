@@ -21,13 +21,13 @@ LEFT JOIN roles r ON ur.role_id = r.id;
 DELETE FROM user_roles WHERE user_id IN (1, 2);
 
 -- 5. Asignar rol Admin al administrador (user_id = 1, role_id = 1)
-INSERT INTO user_roles (user_id, role_id)
-VALUES (1, 1)
+INSERT INTO user_roles (user_id, role_id, created_at)
+VALUES (1, 1, NOW())
 ON CONFLICT (user_id, role_id) DO NOTHING;
 
 -- 6. Asignar rol User al usuario de prueba (user_id = 2, role_id = 2)
-INSERT INTO user_roles (user_id, role_id)
-VALUES (2, 2)
+INSERT INTO user_roles (user_id, role_id, created_at)
+VALUES (2, 2, NOW())
 ON CONFLICT (user_id, role_id) DO NOTHING;
 
 -- 7. Verificar asignaciones después del fix
