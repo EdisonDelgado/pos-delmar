@@ -20,11 +20,20 @@ export function LoginPage() {
     }
   }, [isAuthenticated, navigate]);
 
-  useEffect(() => {
-    return () => {
+  // Limpiar error cuando el usuario empieza a escribir
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+    if (error) {
       dispatch(clearError());
-    };
-  }, [dispatch]);
+    }
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+    if (error) {
+      dispatch(clearError());
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,9 +65,10 @@ export function LoginPage() {
                 type="email"
                 placeholder="admin@delmar.com"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={handleEmailChange}
                 required
                 disabled={isLoading}
+                autoComplete="email"
               />
             </div>
             <div className="space-y-2">
@@ -70,10 +80,15 @@ export function LoginPage() {
                 type="password"
                 placeholder="••••••••"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handlePasswordChange}
                 required
                 disabled={isLoading}
+                autoComplete="current-password"
               />
+            </div>
+            <div className="text-xs text-muted-foreground bg-muted p-3 rounded-md">
+              <p className="font-medium mb-1">Credenciales de prueba:</p>
+              <p className="font-mono">admin@delmar.com / admin123</p>
             </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
